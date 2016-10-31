@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Simon</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <style>
+
+        body    {
+            text-align: center;
+        }
+
+        #board  {
+            width: 560px;
+            height: 560px;
+            margin: auto;
+            border-radius: 50%;
+            background-color: dimgray;
+        }
+
+        .button {
+            width: 250px;
+            height: 250px;
+            margin: 5px;
+            float: left;
+        }
+
+        .green  {
+            background-color: green;
+            border-top-left-radius: 100%;
+            box-shadow: green 0 0 20px;
+        }
+
+        .red    {
+            background-color: red;
+            border-top-right-radius: 100%;
+            box-shadow: red 0 0 20px;
+        }
+
+        .yellow {
+            background-color: yellow;
+            border-bottom-left-radius: 100%;
+            box-shadow: yellow 0 0 20px;
+        }
+
+        .blue   {
+            background-color: blue;
+            border-bottom-right-radius: 100%;
+            box-shadow: blue 0 0 20px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <h1>Simple Simon</h1>
+
+        <div id="board" class="well">
+            <div id="0" class="button green"></div>
+            <div id="1" class="button red"></div>
+            <div id="2" class="button yellow"></div>
+            <div id="3" class="button blue"></div>
+        </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script>
+
+    </script>
+</body>
+</html>
