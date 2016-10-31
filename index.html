@@ -17,7 +17,7 @@
             height: 560px;
             margin: auto;
             border-radius: 50%;
-            background-color: dimgray;
+            background-color: black;
         }
 
         .button {
@@ -30,25 +30,26 @@
         .green  {
             background-color: green;
             border-top-left-radius: 100%;
-            box-shadow: green 0 0 20px;
         }
 
         .red    {
             background-color: red;
             border-top-right-radius: 100%;
-            box-shadow: red 0 0 20px;
         }
 
         .yellow {
             background-color: yellow;
             border-bottom-left-radius: 100%;
-            box-shadow: yellow 0 0 20px;
         }
 
         .blue   {
             background-color: blue;
             border-bottom-right-radius: 100%;
-            box-shadow: blue 0 0 20px;
+        }
+
+        .lightup {
+            border: solid white 3px;
+            box-shadow: white 0 0 50px;
         }
 
     </style>
@@ -58,16 +59,75 @@
 
     <h1>Simple Simon</h1>
 
-        <div id="board" class="well">
-            <div id="0" class="button green"></div>
-            <div id="1" class="button red"></div>
-            <div id="2" class="button yellow"></div>
-            <div id="3" class="button blue"></div>
-        </div>
+    <div id="board" class="well">
+        <div id="0" class="button green"></div>
+        <div id="1" class="button red"></div>
+        <div id="2" class="button yellow"></div>
+        <div id="3" class="button blue"></div>
+    </div>
+
+    <button type="button" id="start" class="btn-lg">Start</button>
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
     <script>
+
+        "use strict";
+
+        // Global variables
+        var userArray;
+        var simonArray;
+        var buttons = $(".button");
+        var score = 0;
+
+        // Begin the game; Empty Simon's array; Run simonsMove
+        function beginGame()    {
+            simonArray = [];
+            simonsMove();
+        }
+
+        // Simon's move; Empty User's array; Run getRandom
+        function simonsMove()   {
+            userArray = [];
+            getRandom();
+        }
+
+        // Get random number from 0-3; Set the random number as the index
+        // of game buttons and store in buttonActivated; Push id of the button
+        // activated to Simon's array
+        function getRandom() {
+            var random = Math.floor(Math.random() * 4);
+            var buttonActivated = buttons[random];
+            simonArray.push(buttonActivated.id);
+            console.log(buttonActivated.id);
+        }
+
+        // Called by game button click listeners below; Run lightUp function
+        // on the button activated; Push id of the button activated to User's array
+        function userInput()  {
+            lightUp($(this));
+            userArray.push(this.id);
+        }
+
+        // Applies class "lightup' to the game buttons when called
+        function lightUp(button) {
+            button.addClass("lightup");
+            setTimeout(function () {
+                button.removeClass("lightup");
+            }, 250);
+        }
+
+        // Enable User to click game buttons
+        function enableClick() {
+            $("#0").on("click", userInput);
+            $("#1").on("click", userInput);
+            $("#2").on("click", userInput);
+            $("#3").on("click", userInput);
+        }
+
+        // Button to start the game; Clicking the button runs beginGame
+        $("#start").on("click", beginGame);
 
     </script>
 </body>
