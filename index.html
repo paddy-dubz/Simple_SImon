@@ -5,6 +5,7 @@
     <title>Simple Simon</title>
 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
 
     <style>
 
@@ -13,11 +14,77 @@
         }
 
         #board  {
-            width: 560px;
-            height: 560px;
-            margin: auto;
+            width: 565px;
+            height: 565px;
+            position: relative;
+            margin: 10vh auto 0;
+            border: solid #2d2d2d 3px;
             border-radius: 50%;
             background-color: black;
+            box-shadow: 5px 5px 10px black;
+        }
+
+        #center {
+            height: 45%;
+            width: 45%;
+            position: absolute;
+            top: 27.5%;
+            left: 27.5%;
+            border-radius: 50%;
+            background: black;
+            padding-top: 5.5rem;
+        }
+
+        #controls   {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        h1  {
+            font-size: 2.3rem;
+            margin: 0 auto 2rem;
+            color: white;
+        }
+
+        h4  {
+            margin-bottom: .5rem;
+            font-weight: 400;
+            color: white;
+        }
+
+        #screen {
+            background: #333;
+            padding: .6rem;
+            width: 10rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: #ff3d3d;
+            text-shadow: 0 0 5px red;
+            display: inline-block;
+        }
+
+        #start, #reset  {
+            border-radius: 50%;
+            width: 23px;
+            height: 23px;
+        }
+
+        #start  {
+            border: solid darkgoldenrod 2px;
+            background: yellow;
+        }
+
+        #start:active   {
+            background: darkgoldenrod;
+        }
+
+        #reset  {
+            border: solid darkred 2px;
+            background: red;
+        }
+
+        #reset:active   {
+            background: darkred;
         }
 
         .button {
@@ -25,31 +92,37 @@
             height: 250px;
             margin: 5px;
             float: left;
+            opacity: .8;
         }
 
         .green  {
-            background-color: green;
+            background: -webkit-linear-gradient(top, #008000, #004600);
+            border: solid #004600 1px;
             border-top-left-radius: 100%;
         }
 
         .red    {
-            background-color: red;
+            background: -webkit-linear-gradient(top, red, darkred);
+            border: solid darkred 1px;
             border-top-right-radius: 100%;
         }
 
         .yellow {
-            background-color: yellow;
+            background: -webkit-linear-gradient(top, yellow, darkgoldenrod);
+            border: solid darkgoldenrod 1px;
             border-bottom-left-radius: 100%;
         }
 
         .blue   {
-            background-color: blue;
+            background: -webkit-linear-gradient(top, blue, darkblue);
+            border: solid darkblue 1px;
             border-bottom-right-radius: 100%;
         }
 
         .lightup {
-            border: solid white 3px;
+            border: solid white 2px;
             box-shadow: white 0 0 50px;
+            opacity: 1;
         }
 
     </style>
@@ -57,17 +130,26 @@
 </head>
 <body>
 
-    <h1>Simple Simon</h1>
-
     <div id="board" class="well">
-        <div id="0" class="button green"></div>
-        <div id="1" class="button red"></div>
-        <div id="2" class="button yellow"></div>
-        <div id="3" class="button blue"></div>
+        <button id="0" class="button green"></button>
+        <button id="1" class="button red"></button>
+        <button id="2" class="button yellow"></button>
+        <button id="3" class="button blue"></button>
+            <div id="center">
+                <h1>Simple Simon</h1>
+                <span id="screen">0</span>
+                    <div id="controls">
+                        <div>
+                            <h4>Start</h4>
+                            <button id="start"></button>
+                        </div>
+                        <div>
+                            <h4>Reset</h4>
+                            <button id="reset"></button>
+                        </div>
+                    </div>
+            </div>
     </div>
-
-    <button type="button" id="start" class="btn-lg">Start</button>
-
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
@@ -81,7 +163,8 @@
         var buttons = $(".button");
         var score = 0;
 
-        // Begin the game; Empty Simon's array; Run simonsMove
+        // Called by start button click listener at bottom to begin the game;
+        // Empty Simon's array; Run simonsMove
         function beginGame()    {
             simonArray = [];
             simonsMove();
@@ -96,39 +179,51 @@
         // Get random number from 0-3; Set the random number as the index
         // of game buttons and store in buttonActivated; Push id of the button
         // activated to Simon's array
-        function getRandom() {
+        function getRandom()    {
             var random = Math.floor(Math.random() * 4);
             var buttonActivated = buttons[random];
             simonArray.push(buttonActivated.id);
             console.log(buttonActivated.id);
         }
 
-        // Called by game button click listeners below; Run lightUp function
+        // Called by game button click listeners at bottom; Run lightUp function
         // on the button activated; Push id of the button activated to User's array
-        function userInput()  {
+        function userInput()    {
             lightUp($(this));
-            userArray.push(this.id);
+//            userArray.push(this.id);
+            console.log(this.id);
         }
 
         // Applies class "lightup' to the game buttons when called
-        function lightUp(button) {
+        function lightUp(button)    {
             button.addClass("lightup");
             setTimeout(function () {
                 button.removeClass("lightup");
             }, 250);
         }
 
+        // Called by reset button click listener at bottom to reset the game;
+        // Alerts user "Thanks for playing!"; Reloads the page thus resets game
+        function resetGame()    {
+            alert("Thanks for playing!");
+            location.reload(true);
+        }
+
         // Enable User to click game buttons
-        function enableClick() {
+        function enableClick()  {
             $("#0").on("click", userInput);
             $("#1").on("click", userInput);
             $("#2").on("click", userInput);
             $("#3").on("click", userInput);
-        }
+        } enableClick();
 
         // Button to start the game; Clicking the button runs beginGame
         $("#start").on("click", beginGame);
 
+        // Button to reset the game; Clicking the button runs resetGame
+        $("#reset").on("click", resetGame);
+
     </script>
+
 </body>
 </html>
