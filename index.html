@@ -155,6 +155,8 @@
 
     <script>
 
+    (function() {
+
         "use strict";
 
         // Global variables
@@ -170,10 +172,11 @@
             simonsMove();
         }
 
-        // Simon's move; Empty User's array; Run getRandom
+        // Simon's move; Empty User's array; Run getRandom and playbackArray
         function simonsMove()   {
             userArray = [];
             getRandom();
+            playbackArray();
         }
 
         // Get random number from 0-3; Set the random number as the index
@@ -186,15 +189,38 @@
             console.log(buttonActivated.id);
         }
 
+        // Playback the array; Run disableClick to disable user input during
+        // playback; Set playback interval to 1 second; Run lightUp function
+        // on the button id(s) stored in Simon's array; Clear interval when Simon's
+        // array has been played back; Run enableClick to re-enable user input
+        function playbackArray()  {
+            disableClick();
+            var i = 0;
+            var intervalId = setInterval(function() {
+                lightUp($("#" + simonArray[i]));
+                i++;
+                if (i >= simonArray.length){
+                    clearInterval(intervalId);
+                    enableClick();
+                }
+            }, 1000);
+        }
+
         // Called by game button click listeners at bottom; Run lightUp function
-        // on the button activated; Push id of the button activated to User's array
+        // on the button activated; Push id of the button activated to User's array;
         function userInput()    {
             lightUp($(this));
-//            userArray.push(this.id);
+            userArray.push(this.id);
             console.log(this.id);
         }
 
-        // Applies class "lightup' to the game buttons when called
+        // TODO: Compare Simon's and User's arrays to determine if user input is correct
+
+
+        // TODO: Keep track of rounds completed and output to "#screen"
+
+
+        // Applies class "lightup" for .25 seconds to the game buttons when called
         function lightUp(button)    {
             button.addClass("lightup");
             setTimeout(function () {
@@ -209,19 +235,29 @@
             location.reload(true);
         }
 
-        // Enable User to click game buttons
+        // Enable User to click game buttons when it's their turn
         function enableClick()  {
             $("#0").on("click", userInput);
             $("#1").on("click", userInput);
             $("#2").on("click", userInput);
             $("#3").on("click", userInput);
-        } enableClick();
+        }
+
+        // Disable User to click game buttons when it isn't their turn
+        function disableClick()  {
+            $("#0").off("click", userInput);
+            $("#1").off("click", userInput);
+            $("#2").off("click", userInput);
+            $("#3").off("click", userInput);
+        }
 
         // Button to start the game; Clicking the button runs beginGame
         $("#start").on("click", beginGame);
 
         // Button to reset the game; Clicking the button runs resetGame
         $("#reset").on("click", resetGame);
+
+    })();
 
     </script>
 
