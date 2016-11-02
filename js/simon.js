@@ -1,6 +1,32 @@
 /**
  * Created by Patrick on 11/2/16.
  */
+
+    // _________    _______ _________ _______          _________
+    // \__   __/   (  ____ \\__   __/(  ____ \|\     /|\__   __/
+    //    ) (      | (    \/   ) (   | (    \/| )   ( |   ) (
+    //    | |      | (__       | |   | |      | (___) |   | |
+    //    | |      |  __)      | |   | | ____ |  ___  |   | |
+    //    | |      | (         | |   | | \_  )| (   ) |   | |
+    // ___) (___   | )      ___) (___| (___) || )   ( |   | |
+    // \_______/   |/       \_______/(_______)|/     \|   )_(
+    //  _______  _______  _______   _________          _______
+    // (  ____ \(  ___  )(  ____ )  \__   __/|\     /|(  ____ \
+    // | (    \/| (   ) || (    )|     ) (   | )   ( || (    \/
+    // | (__    | |   | || (____)|     | |   | (___) || (__
+    // |  __)   | |   | ||     __)     | |   |  ___  ||  __)
+    // | (      | |   | || (\ (        | |   | (   ) || (
+    // | )      | (___) || ) \ \__     | |   | )   ( || (____/\
+    // |/       (_______)|/   \__/     )_(   |/     \|(_______/
+    //           _______  _______  _______  _______  _
+    // |\     /|(  ____ \(  ____ \(  ____ )(  ____ \( )
+    // | )   ( || (    \/| (    \/| (    )|| (    \/| |
+    // | |   | || (_____ | (__    | (____)|| (_____ | |
+    // | |   | |(_____  )|  __)   |     __)(_____  )| |
+    // | |   | |      ) || (      | (\ (         ) |(_)
+    // | (___) |/\____) || (____/\| ) \ \__/\____) | _
+    // (_______)\_______)(_______/|/   \__/\_______)(_)
+
 (function()    {
 
     "use strict";
@@ -11,14 +37,14 @@
     var userArray;              // Array that holds User's moves
 
     // Called by start button click listener at bottom to begin the game;
-    // Empty Simon's array; Run simonsMove
+    // Empties Simon's array; Runs simonsMove
     function beginGame()    {
         simonArray = [];
         simonsMove();
     }
 
-    // Simon's move; Empty User's array; Run keepScore to output rounds completed
-    // to "#screen"; Run getRandom and playbackArray to select and display Simon's
+    // Simon's move; Empties User's array; Runs keepScore to output rounds completed
+    // to "#screen"; Runs getRandom and playbackArray to select and display Simon's
     // move(s)
     function simonsMove()    {
         userArray = [];
@@ -27,8 +53,8 @@
         playbackArray();
     }
 
-    // Get random number from 0-3; Set the random number as the index
-    // of game buttons and store in buttonActivated; Push id of the button
+    // Gets random number from 0-3; Sets the random number as the index
+    // of game buttons and stores in buttonActivated; Pushes id of the button
     // activated to Simon's array
     function getRandom()    {
         var random = Math.floor(Math.random() * 4);
@@ -36,10 +62,10 @@
         simonArray.push(buttonActivated.id);
     }
 
-    // Playback the array; Run disableClick to disable user input during
-    // playback; Set playback interval to 1 second; Run lightUp function
-    // on the button id(s) stored in Simon's array; Clear interval when Simon's
-    // array has been played back; Run enableClick to re-enable user input
+    // Plays back the array; Runs disableClick to disable User input during
+    // playback; Sets playback interval to 1 second; Runs lightUp function
+    // on the button id(s) stored in Simon's array; Clears interval when Simon's
+    // array has been played back and runs enableClick to re-enable User input
     function playbackArray()    {
         disableClick();
         var i = 0;
@@ -53,56 +79,53 @@
         }, 1000);
     }
 
-    // Called by game button click listeners at bottom; Run lightUp function
-    // on the button activated; Push id of the button activated to User's array;
+    // Called by game button click listeners at bottom; Runs lightUp function
+    // on the button activated; Pushes id of the button activated to User's array;
+    // Runs compareArrays to compare User's array to Simon's array
     function userInput()    {
         lightUp($(this));
         userArray.push(this.id);
         compareArrays();
     }
 
-    // Compare Simon's and User's arrays to determine if user input is correct;
-    // Variable incorrect holds boolean value; For loop compares each index of
-    // User's array and Simon's array; Should they not match, variable incorrect
-    // becomes true and gameOver is called to end the game; If they do match
-    // simonsMove is called to continue the game
+    // Compares Simon's and User's arrays to determine if User input is correct;
+    // For loop compares each index of User's array and Simon's array; If they
+    // don't match gameOver is called to end the game; If indexes match and
+    // are the same length simonsMove is called to continue the game
     function compareArrays()    {
-        var incorrect = false;
         for (var i = 0; i < userArray.length; i++)    {
             if (simonArray[i] != userArray[i])    {
-                incorrect = true;
-                break;
+                gameOver();
+                return;
             }
         }
-        if (incorrect)    {
-            gameOver();
-        } else if (userArray.length == simonArray.length)    {
+        if (userArray.length == simonArray.length)    {
             simonsMove();
         }
     }
 
-    // Keep track of rounds completed successfully and output to "#screen"
+    // Keeps track of rounds completed successfully and outputs to "#screen"
     function keepScore()    {
         $("#screen").text(simonArray.length);
     }
 
     // Applies class "lightup" for .25 seconds to the game buttons when called by
-    // both User and Simon
+    // either User or Simon
     function lightUp(button)    {
         button.addClass("lightup");
         setTimeout(function()    {
             button.removeClass("lightup");
-        }, 250);
+        }, 200);
     }
 
     // Called when User's array and Simon's array don't match; Confirms game is
-    // over, displays score, and prompts the user if they'd like to try again; If
+    // over, displays score, and prompts the User if they'd like to try again; If
     // they agree, run beginGame after a .5 second delay; Otherwise reload the page
     // to reset the game
     function gameOver()    {
         setTimeout(function()    {
             var tryAgain = confirm("Game over man! Your score was " + ((simonArray.length) - 1) + ". Try again?");
-            if(tryAgain)    {
+            if (tryAgain)    {
                 beginGame();
             } else    {
                 location.reload(true);
@@ -128,10 +151,10 @@
 
     // Disable User to click game buttons when it isn't their turn
     function disableClick()    {
-        $("#0").off("click", userInput);
-        $("#1").off("click", userInput);
-        $("#2").off("click", userInput);
-        $("#3").off("click", userInput);
+        $("#0").off("click");
+        $("#1").off("click");
+        $("#2").off("click");
+        $("#3").off("click");
     }
 
     // Button to start the game; Clicking the button runs beginGame
