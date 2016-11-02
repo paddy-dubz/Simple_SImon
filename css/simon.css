@@ -1,0 +1,115 @@
+body    {
+    text-align: center;
+}
+
+#board  {
+    width: 565px;
+    height: 565px;
+    position: relative;
+    margin: 10vh auto 0;
+    border: solid #2d2d2d 3px;
+    border-radius: 50%;
+    background-color: black;
+    box-shadow: 5px 5px 10px black;
+}
+
+#center {
+    height: 45%;
+    width: 45%;
+    position: absolute;
+    top: 27.5%;
+    left: 27.5%;
+    border-radius: 50%;
+    background: black;
+    padding-top: 5.5rem;
+}
+
+#controls   {
+    display: flex;
+    justify-content: space-around;
+}
+
+h1  {
+    font-size: 2.3rem;
+    margin: 0 auto 2rem;
+    color: white;
+}
+
+h4  {
+    margin-bottom: .5rem;
+    font-weight: 400;
+    color: white;
+}
+
+#screen {
+    background: #333;
+    padding: .6rem;
+    width: 10rem;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    color: #ff3d3d;
+    text-shadow: 0 0 5px red;
+    display: inline-block;
+}
+
+#start, #reset  {
+    border-radius: 50%;
+    width: 23px;
+    height: 23px;
+}
+
+#start  {
+    border: solid darkgoldenrod 2px;
+    background: yellow;
+}
+
+#start:active   {
+    background: darkgoldenrod;
+}
+
+#reset  {
+    border: solid darkred 2px;
+    background: red;
+}
+
+#reset:active   {
+    background: darkred;
+}
+
+.button {
+    width: 250px;
+    height: 250px;
+    margin: 5px;
+    float: left;
+    opacity: .7;
+}
+
+.green  {
+    background: -webkit-linear-gradient(top, #008000, #004600);
+    border: solid #004600 1px;
+    border-top-left-radius: 100%;
+}
+
+.red    {
+    background: -webkit-linear-gradient(top, red, darkred);
+    border: solid darkred 1px;
+    border-top-right-radius: 100%;
+}
+
+.yellow {
+    background: -webkit-linear-gradient(top, yellow, darkgoldenrod);
+    border: solid darkgoldenrod 1px;
+    border-bottom-left-radius: 100%;
+}
+
+.blue   {
+    background: -webkit-linear-gradient(top, blue, darkblue);
+    border: solid darkblue 1px;
+    border-bottom-right-radius: 100%;
+}
+
+.lightup {
+    border: solid white 2px;
+    box-shadow: white 0 0 50px;
+    opacity: 1;
+}
