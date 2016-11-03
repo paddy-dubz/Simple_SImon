@@ -32,14 +32,19 @@
     "use strict";
 
     // Global variables
-    var buttons = $(".button"); // Assign elements with id ".button" to variable buttons
-    var simonArray;             // Array that holds Simon's moves
-    var userArray;              // Array that holds User's moves
+    var buttons = $(".button");      // Assign elements with id ".button" to variable buttons
+    var simonArray = [];             // Array that holds Simon's moves
+    var userArray = [];              // Array that holds User's moves
+
 
     // Called by start button click listener at bottom to begin the game;
-    // Empties Simon's array; Runs simonsMove
+    // Empties Simon's array; Runs enableReset to enable reset button
+    // only after game begins; Runs disableStart to disable start button after
+    // game begins; Runs simonsMove
     function beginGame()    {
         simonArray = [];
+        enableReset();
+        disableStart();
         simonsMove();
     }
 
@@ -115,17 +120,19 @@
         button.addClass("lightup");
         setTimeout(function()    {
             button.removeClass("lightup");
-        }, 200);
+        }, 250);
     }
 
     // Called when User's array and Simon's array don't match; Confirms game is
     // over, displays score, and prompts the User if they'd like to try again; If
-    // they agree, run beginGame after a .5 second delay; Otherwise reload the page
+    // they agree, runs resetReset to prevent multiple alerts when resetting after
+    // restart and beginGame after a .5 second delay; Otherwise reload the page
     // to reset the game
     function gameOver()    {
         setTimeout(function()    {
             var tryAgain = confirm("Game over man! Your score was " + ((simonArray.length) - 1) + ". Try again?");
             if (tryAgain)    {
+                resetReset();
                 beginGame();
             } else    {
                 location.reload(true);
@@ -134,7 +141,7 @@
     }
 
     // Called by reset button click listener at bottom to reset the game;
-    // Alerts user their score and "Thanks for playing!"; Reloads the page to
+    // Alerts User their score and "Thanks for playing!"; Reloads the page to
     // reset the game
     function resetGame()    {
         alert("Your score was " + ((simonArray.length) - 1) + ". Thanks for playing!");
@@ -149,18 +156,30 @@
         $("#3").on("click", userInput);
     }
 
-    // Disable User to click game buttons when it isn't their turn
+    // Prevent User clicking game buttons when it isn't their turn
     function disableClick()    {
-        $("#0").off("click");
-        $("#1").off("click");
-        $("#2").off("click");
-        $("#3").off("click");
+        $(".button").off("click");
     }
 
     // Button to start the game; Clicking the button runs beginGame
     $("#start").on("click", beginGame);
 
-    // Button to reset the game; Clicking the button runs resetGame
-    $("#reset").on("click", resetGame);
+    // Prevent User clicking start after game has already started
+    function disableStart()    {
+        $("#start").off("click");
+    }
+
+    // Button to reset the game; Clicking the button runs resetGame, but only
+    // after game has started
+    function enableReset() {
+        $("#reset").on("click", resetGame);
+    }
+
+    // Prevent multiple alerts on reset after restarting the game; Without this
+    // the User would get more than one alert if they clicked reset after failing
+    // and agreeing to try again
+    function resetReset() {
+        $("#reset").unbind("click", resetGame);
+    }
 
 })();
