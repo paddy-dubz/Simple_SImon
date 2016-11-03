@@ -32,7 +32,7 @@
     "use strict";
 
     // Global variables
-    var buttons = $(".button");      // Assign elements with id ".button" to variable buttons
+    var buttons = $(".button");      // Assign elements with class "button" to variable buttons
     var simonArray = [];             // Array that holds Simon's moves
     var userArray = [];              // Array that holds User's moves
 
@@ -109,7 +109,7 @@
         }
     }
 
-    // Keeps track of rounds completed successfully and outputs to "#screen"
+    // Keeps track of rounds completed successfully and outputs to span with id "screen"
     function keepScore()    {
         $("#screen").text(simonArray.length);
     }
@@ -169,8 +169,8 @@
         $("#start").off("click");
     }
 
-    // Button to reset the game; Clicking the button runs resetGame, but only
-    // after game has started
+    // Enables button to reset the game; Clicking the button runs resetGame,
+    // but only after game has started
     function enableReset() {
         $("#reset").on("click", resetGame);
     }
