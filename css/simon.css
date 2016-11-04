@@ -7,9 +7,9 @@ body    {
     height: 565px;
     position: relative;
     margin: 10vh auto 0;
-    border: solid #2d2d2d 3px;
+    border: solid #161616 3px;
     border-radius: 50%;
-    background-image: url(../img/background.png);
+    background-image: url(../img/bg.png);
     background-size: cover;
     box-shadow: 5px 5px 10px black;
 }
