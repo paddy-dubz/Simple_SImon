@@ -140,18 +140,21 @@
     // Called when User's array and Simon's array don't match; Confirms game is
     // over, displays score, and prompts the User if they'd like to try again; If
     // they agree, run resetReset to prevent multiple alerts when resetting after
-    // restart, and beginGame after a .5 second delay; Otherwise reload the page
-    // to reset the game
+    // restart, and beginGame; Otherwise reload the page to reset the game; Short
+    // timeout prevents user from getting multiple game over alerts if they
+    // rapidly pressed an incorrect game button multiple times, and prevents last
+    // round's incorrect button from lighting up on new round
     function gameOver()    {
         setTimeout(function()    {
             var tryAgain = confirm("Game over man! Your score was " + ((simonArray.length) - 1) + ". Try again?");
             if (tryAgain)    {
                 resetReset();
                 beginGame();
+                button.removeClass("lightup");
             } else    {
                 location.reload(true);
             }
-        }, 500);
+        }, 100);
     }
 
     // Called by reset button click listener at bottom to reset the game;
