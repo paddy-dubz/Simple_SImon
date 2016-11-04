@@ -68,7 +68,7 @@
     }
 
     // Plays back the array; Runs disableClick to disable User input during
-    // playback; Sets playback interval to 1 second; Runs lightUp function
+    // playback; Sets playback interval to gameSpeed; Runs lightUp function
     // on the button id(s) stored in Simon's array; Clears interval when Simon's
     // array has been played back and runs enableClick to re-enable User input
     function playbackArray()    {
@@ -81,7 +81,21 @@
                 clearInterval(intervalId);
                 enableClick();
             }
-        }, 1000);
+        }, gameSpeed());
+    }
+
+    // Starts playback interval at 1 second and reduces by .05 seconds after
+    // every successful round to increase game speed and difficulty; Bottoms out
+    // at .275 seconds after 15 rounds where it stays until reset or game over.
+    function gameSpeed()    {
+        var minSpeed = 275;
+        var maxSpeed = 1000;
+        var speed = maxSpeed - (((simonArray.length) - 1) * 50);
+        if (speed < minSpeed)    {
+            return minSpeed;
+        } else    {
+            return speed;
+        }
     }
 
     // Called by game button click listeners at bottom; Runs lightUp function
@@ -109,7 +123,7 @@
         }
     }
 
-    // Keeps track of rounds completed successfully and outputs to span with id "screen"
+    // Outputs rounds completed successfully to span with id "screen"
     function keepScore()    {
         $("#screen").text(simonArray.length);
     }
@@ -125,8 +139,8 @@
 
     // Called when User's array and Simon's array don't match; Confirms game is
     // over, displays score, and prompts the User if they'd like to try again; If
-    // they agree, runs resetReset to prevent multiple alerts when resetting after
-    // restart and beginGame after a .5 second delay; Otherwise reload the page
+    // they agree, run resetReset to prevent multiple alerts when resetting after
+    // restart, and beginGame after a .5 second delay; Otherwise reload the page
     // to reset the game
     function gameOver()    {
         setTimeout(function()    {
@@ -150,10 +164,7 @@
 
     // Enable User to click game buttons when it's their turn
     function enableClick()    {
-        $("#0").on("click", userInput);
-        $("#1").on("click", userInput);
-        $("#2").on("click", userInput);
-        $("#3").on("click", userInput);
+        $(".button").on("click", userInput);
     }
 
     // Prevent User clicking game buttons when it isn't their turn
@@ -171,14 +182,14 @@
 
     // Enables button to reset the game; Clicking the button runs resetGame,
     // but only after game has started
-    function enableReset() {
+    function enableReset()    {
         $("#reset").on("click", resetGame);
     }
 
     // Prevent multiple alerts on reset after restarting the game; Without this
     // the User would get more than one alert if they clicked reset after failing
     // and agreeing to try again
-    function resetReset() {
+    function resetReset()    {
         $("#reset").unbind("click", resetGame);
     }
 
